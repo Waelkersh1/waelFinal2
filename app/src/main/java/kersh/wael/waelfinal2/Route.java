@@ -10,6 +10,18 @@ public class Route {
     private Date startDate , endDate ;
     private String Type;//RUN WALK BICYCLE
     private double  length;
+    private String key;
+
+    public Route() {
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public ArrayList<Location> getLocations() {
         return locations;
