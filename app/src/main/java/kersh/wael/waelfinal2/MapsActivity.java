@@ -34,7 +34,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
 import java.util.List;
@@ -47,7 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button btnStart,btnH,btnCap,btnStop;
     private TextView etCal,etTime,etDis;
     private RadioButton btnWalk,btnRun,btnCycling;
-    private Route route ;
+    private Route route=null ;
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
 
@@ -74,11 +79,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 btnStart.setEnabled(false);
                 route=new Route();
                 route.setStartDate(new Date());
+               // route.getPics().put(mLastLocation,"test");
+                if (btnWalk.isChecked())route.setType("walk");
+                if (btnRun.isChecked())route.setType("run");
+                if (btnCycling.isChecked())route.setType("cycling");
 
 
             }
         });
-
+            btnStop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    btnStart.setEnabled(true);
+                    route.setEndDate(new Date());
+                    saveRoute(route);
+                }
+            });
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -88,7 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},REC_CODE);
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},MY_PERMISSIONS_REQUEST_LOCATION);
             return;
         }
 
@@ -96,9 +112,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onSuccess(Location location) {
                 if(location!=null) {
+                    mLastLocation=location;
+//                    if(route!=null)
+//                    route.getPics().put(mLastLocation,"test");
                     LatLng sydney = new LatLng(location.getAltitude(), location.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10));
+                    Toast.makeText(MapsActivity.this, "Last Location:"+mLastLocation.toString(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -106,6 +126,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    private void saveRoute(Route route) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        route.setOwner(auth.getCurrentUser().getUid());
+        // to get the database root reference
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+
+        //to get uid(universal id)
+        String key=reference.child(auth.getCurrentUser().getUid()).child("MyRoutes").push().getKey();
+        route.setKey(key);
+
+        reference.child(auth.getCurrentUser().getUid()).child("MyRoutes").child(key).setValue(route).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful())
+                {
+                    Toast.makeText(getApplicationContext(), "Add Successful", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Add Faild", Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
+
+
     }
 
     /**
@@ -152,8 +200,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000*60); //1 min
-        mLocationRequest.setFastestInterval(1000*60);
+        mLocationRequest.setInterval(1000*6); //1000MS=1S
+        mLocationRequest.setFastestInterval(1000*6);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -174,6 +222,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    //to update location frequently
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -192,6 +241,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
                 markerOptions.title("Current Position");
+                Toast.makeText(MapsActivity.this, "Current Position", Toast.LENGTH_SHORT).show();
+                if (route!=null)
+                {
+                    if (route.getLocations().size()>0)
+                    {
+                        float distance = location.distanceTo(route.getLocations().get(route.getLocations().size() - 1));
+                        if(distance>1)
+                        route.setLength(route.getLength()+distance);
+                    }
+                    route.getLocations().add(location);
+
+                }
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
                 mCurrLocationMarker = mMap.addMarker(markerOptions);
 
