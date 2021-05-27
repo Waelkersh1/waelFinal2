@@ -29,7 +29,7 @@ public class signin extends AppCompatActivity {
         btnSignup = findViewById(R.id.btnsignUP);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if(auth.getCurrentUser()!=null){
-            startActivity(new Intent(getApplicationContext(),MainScreen.class));
+            startActivity(new Intent(getApplicationContext(),MapsActivity.class));
         }
         //4
         btnlog.setOnClickListener(new View.OnClickListener() {
@@ -59,11 +59,6 @@ public class signin extends AppCompatActivity {
             isOK=false;
             etemail.setError("Wrong Eamil syntax");
         }
-        MyValidations myValidations= new MyValidations();
-        if (myValidations.ValidatePasword(passw) == false) {
-            isOK = false;
-            etpassword.setError("Invalid Password");
-        }
 
         if(isOK)
         {
@@ -79,12 +74,12 @@ public class signin extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
                 {
-                    Intent i=new Intent(kersh.wael.FinalProject.signin.this,MainScreen.class);
+                    Intent i=new Intent(getApplicationContext(),MapsActivity.class);
                     startActivity(i);
                 }
                 else
                 {
-                    Toast.makeText(kersh.wael.FinalProject.signin.this , "Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext() , "Failed", Toast.LENGTH_SHORT).show();
                     etemail.setError(task.getException().getMessage());
                 }
             }

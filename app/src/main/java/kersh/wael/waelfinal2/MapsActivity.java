@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,9 +32,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CustomCap;
+import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.RoundCap;
+import com.google.android.gms.maps.model.SquareCap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -112,13 +119,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onSuccess(Location location) {
                 if(location!=null) {
-                    mLastLocation=location;
+                  //  mLastLocation=location;
 //                    if(route!=null)
 //                    route.getPics().put(mLastLocation,"test");
-                    LatLng sydney = new LatLng(location.getAltitude(), location.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10));
-                    Toast.makeText(MapsActivity.this, "Last Location:"+mLastLocation.toString(), Toast.LENGTH_LONG).show();
+                    LatLng latLng = new LatLng(location.getAltitude(), location.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Sydney"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                    Toast.makeText(MapsActivity.this, "Last Location:", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -231,10 +238,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //The last location in the list is the newest
                 Location location = locationList.get(locationList.size() - 1);
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                Polyline polyline1 = mMap.addPolyline(new PolylineOptions()
+                        .clickable(true)
+                        .add(
+                                new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()),
+                                new LatLng(location.getLatitude(), location.getLongitude())
+                        ));
+
+                if(mLastLocation==null)
+                {
+                    //move map camera
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+                }
                 mLastLocation = location;
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
                 }
+                else
+                {
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+                }
+
+                // Store a data object with the polyline, used here to indicate an arbitrary type.
+                polyline1.setTag("A");
+                // Style the polyline.
+                stylePolyline(polyline1);
 
                 //Place current location marker
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -257,11 +287,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mCurrLocationMarker = mMap.addMarker(markerOptions);
 
                 //move map camera
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+               // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
             }
         }
     };
+    /**
+     * Styles the polyline, based on type.
+     * @param polyline The polyline object that needs styling.
+     */
+    private void stylePolyline(Polyline polyline) {
+        String type = "";
+        // Get the data object stored with the polyline.
+        if (polyline.getTag() != null) {
+            type = polyline.getTag().toString();
+        }
 
+        switch (type) {
+            // If no type is given, allow the API to use the default.
+            case "A":
+                // Use a custom bitmap as the cap at the start of the line.
+                polyline.setStartCap(
+                        new SquareCap());
+                break;
+            case "B":
+                // Use a round cap at the start of the line.
+                polyline.setStartCap(new RoundCap());
+                break;
+        }
+
+        polyline.setEndCap(new RoundCap());
+        polyline.setWidth(3);
+        polyline.setColor(Color.RED);
+        polyline.setJointType(JointType.ROUND);
+    }
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
