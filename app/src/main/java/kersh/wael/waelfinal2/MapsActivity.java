@@ -119,7 +119,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onSuccess(Location location) {
                 if(location!=null) {
-                  //  mLastLocation=location;
+                    mLastLocation=location;
 //                    if(route!=null)
 //                    route.getPics().put(mLastLocation,"test");
                     LatLng latLng = new LatLng(location.getAltitude(), location.getLongitude());
