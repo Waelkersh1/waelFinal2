@@ -10,14 +10,39 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * this class for route ,
+ */
 public class Route {
-    private ArrayList<Location> locations=new ArrayList<>(); ;
+    /**
+     * this array contain the locations of athlete
+     */
+    private ArrayList<Location> locations=new ArrayList<>();
+    /**
+     * start date : the beginning hour .
+     * end date : the hour when he ends the workout .
+     */
     private Date startDate , endDate ;
+    /**
+     * this is the type of the sport that the athlete wants to practice.
+     */
     private String Type;//RUN WALK BICYCLE
+    /**
+     * this is the distance of the route.
+     */
     private double  length;
+    /**
+     * this is the id for the owner
+     *
+     */
     private String key;
+    /**
+     * the owner is someone who has a profile
+     */
     private String Owner ;
     //TreeMap<Integer,String> pics=new TreeMap<>() ;
+
+
 
     public Route() {
 

@@ -132,7 +132,6 @@ public class signup extends AppCompatActivity {
      * @param password
      * @param phone
      */
-
     private void createNewAccount(String gmail, String firstName, String lastName, String password, String phone) {
         FirebaseAuth auth = FirebaseAuth.getInstance(); // אחראית על רישום וכניסת משתמשים
     }

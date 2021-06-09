@@ -51,12 +51,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Date;
 import java.util.List;
 
+/**
+ *this is the maps activity
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    /**
+     * this
+     */
     private static final int REC_CODE = 101;
+    /**
+     *
+     */
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
-    private Button btnStart,btnH,btnCap,btnStop;
+    private Button btnStart,btnH,btnCap,btnStop,btnDEL;
     private TextView etCal,etTime,etDis;
     private RadioButton btnWalk,btnRun,btnCycling;
     private Route route=null ;
@@ -65,6 +73,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     Marker mCurrLocationMarker;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +91,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnWalk=findViewById(R.id.btnWalk);
         btnRun=findViewById(R.id.btnRun);
         btnCycling=findViewById(R.id.btnCycling);
+        btnDEL=findViewById(R.id.btnDEL);
 
+                                      /**
+                                       *
+                                       */
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +110,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+        /**
+         *
+         */
             btnStop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -102,6 +121,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     saveRoute(route);
                 }
             });
+
+
+              /**
+         *
+         */
+
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -114,6 +140,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},MY_PERMISSIONS_REQUEST_LOCATION);
             return;
         }
+        /**
+         *
+         */
 
         fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
@@ -129,12 +158,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used. 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     *
+     * @param route
+     */
     private void saveRoute(Route route) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         route.setOwner(auth.getCurrentUser().getUid());
@@ -187,6 +220,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            }
 //        });
 //    }
+
+    /**
+     *
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -388,5 +425,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // other 'case' lines to check for other
             // permissions this app might request
         }
+
     }
+
 }

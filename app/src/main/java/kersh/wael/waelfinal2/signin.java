@@ -32,6 +32,9 @@ public class signin extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),MapsActivity.class));
         }
         //4
+        /**
+         * this function run the button .
+         */
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +42,9 @@ public class signin extends AppCompatActivity {
                 validateForm();
             }
         });
+        /**
+         * this function run the button .
+         */
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +54,11 @@ public class signin extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * The method checks the correctness of the registration top and whether it is correct performs the registration
+     */
+
     private void validateForm()
     {
         String email=etemail.getText().toString();
@@ -66,6 +77,13 @@ public class signin extends AppCompatActivity {
         }
     }
     //6
+
+    /**
+     *
+     * @param email: this is the email of the owner .
+     *
+     * @param passw:this is the password of the owner .
+     */
     private void signIn(String email, String passw)
     {
         FirebaseAuth auth= FirebaseAuth.getInstance();
@@ -74,11 +92,17 @@ public class signin extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
                 {
+                    /**
+                     * this function move the owner from sign in to maps activity.
+                     */
                     Intent i=new Intent(getApplicationContext(),MapsActivity.class);
                     startActivity(i);
                 }
                 else
                 {
+                    /**
+                     * the one gives us note if there is something wrong in the email or the password.
+                     */
                     Toast.makeText(getApplicationContext() , "Failed", Toast.LENGTH_SHORT).show();
                     etemail.setError(task.getException().getMessage());
                 }
