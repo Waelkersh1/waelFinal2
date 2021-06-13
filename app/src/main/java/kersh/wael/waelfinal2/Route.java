@@ -14,6 +14,7 @@ import java.util.TreeMap;
  * this class for route ,
  */
 public class Route {
+
     /**
      * this array contain the locations of athlete
      */
@@ -43,6 +44,15 @@ public class Route {
     //TreeMap<Integer,String> pics=new TreeMap<>() ;
 
 
+    private int Calories ;
+
+    public int getCalories() {
+        return Calories;
+    }
+
+    public void setCalories(int calories) {
+        Calories = calories;
+    }
 
     public Route() {
 

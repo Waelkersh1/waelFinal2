@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 public class history extends AppCompatActivity {
+
     private ListView lst ;
 
     @Override
