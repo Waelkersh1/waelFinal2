@@ -1,5 +1,6 @@
 package kersh.wael.waelfinal2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,9 +8,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,7 +59,6 @@ public class signup extends AppCompatActivity {
 
         boolean isOk = true;
 
-
         if (FirstName.length() < 2) {
             isOk = false;
             etFirstName.setError("at least two letters");
@@ -66,6 +66,9 @@ public class signup extends AppCompatActivity {
         if (LastName.length() < 2) {
             isOk = false;
             etLastName.setError("at least two letters");
+
+
+
         }
         if (Email.length() < 5 || Email.indexOf('@') == 0 || Email.indexOf('@') >= Email.length() - 2 ||
                 Email.indexOf('.') == 0 || Email.indexOf('.') >= Email.length() - 1 || Email.lastIndexOf('.') < Email.indexOf('@')) {
@@ -134,61 +137,25 @@ public class signup extends AppCompatActivity {
      */
     private void createNewAccount(String gmail, String firstName, String lastName, String password, String phone) {
         FirebaseAuth auth = FirebaseAuth.getInstance(); // אחראית על רישום וכניסת משתמשים
+        OnCompleteListener<AuthResult> listener=new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(signup.this, "succefully signing up", Toast.LENGTH_SHORT).show();
+                    Intent i=new Intent(signup.this,MapsActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+                else {
+                    Toast.makeText(signup.this,"sign up failed"+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                    etEmail.setError("sining up , failed"+task.getException().getMessage());
+                }
+
+            }
+        };
+        auth.createUserWithEmailAndPassword(gmail,password).addOnCompleteListener(listener);
+
     }
 
-    public EditText getEtEmail() {
-        return etEmail;
-    }
 
-    public void setEtEmail(EditText etEmail) {
-        this.etEmail = etEmail;
-    }
-
-    public EditText getEtPhone() {
-        return etPhone;
-    }
-
-    public void setEtPhone(EditText etPhone) {
-        this.etPhone = etPhone;
-    }
-
-    public EditText getEtFirstName() {
-        return etFirstName;
-    }
-
-    public void setEtFirstName(EditText etFirstName) {
-        this.etFirstName = etFirstName;
-    }
-
-    public EditText getEtLastName() {
-        return etLastName;
-    }
-
-    public void setEtLastName(EditText etLastName) {
-        this.etLastName = etLastName;
-    }
-
-    public EditText getEtPassword() {
-        return etPassword;
-    }
-
-    public void setEtPassword(EditText etPassword) {
-        this.etPassword = etPassword;
-    }
-
-    public EditText getEtPassword2() {
-        return etPassword2;
-    }
-
-    public void setEtPassword2(EditText etPassword2) {
-        this.etPassword2 = etPassword2;
-    }
-
-    public Button getBtnsave() {
-        return btnsave;
-    }
-
-    public void setBtnsave(Button btnsave) {
-        this.btnsave = btnsave;
-    }
 }

@@ -23,8 +23,8 @@ public class signin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-        etemail = findViewById(R.id.etEmail);
-        etpassword = findViewById(R.id.etPassword);
+        etemail = findViewById(R.id.etFirstName);
+        etpassword = findViewById(R.id.etLastName);
         btnlog = findViewById(R.id.btnlog);
         btnSignup = findViewById(R.id.btnsignUP);
         FirebaseAuth auth = FirebaseAuth.getInstance();
