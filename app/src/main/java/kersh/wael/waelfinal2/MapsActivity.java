@@ -392,6 +392,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         MY_PERMISSIONS_REQUEST_LOCATION );
             }
         }
+
+
+
+
+
+
+
     }
 
     @Override

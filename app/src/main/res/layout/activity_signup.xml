@@ -21,7 +21,10 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="101dp"
+                android:background="@android:color/holo_blue_dark"
+                android:fontFamily="serif"
                 android:text="               Sign up "
+                android:textColor="@color/white"
                 android:textSize="36sp" />
 
             <EditText
@@ -76,8 +79,10 @@
                 android:id="@+id/btnsave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:fontFamily="serif"
                 android:text="Save"
-                android:textColor="#131313" />
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </LinearLayout>

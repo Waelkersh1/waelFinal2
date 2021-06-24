@@ -24,8 +24,11 @@
 
             <Button
                 android:id="@+id/btnCap"
-                android:layout_width="76dp"
+                android:layout_width="66dp"
                 android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:backgroundTint="@android:color/black"
+                android:fontFamily="serif"
                 android:text="Cap"
                 app:layout_constraintStart_toEndOf="@+id/etTime" />
 
@@ -33,18 +36,25 @@
                 android:id="@+id/btnH"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/ic_launcher_background"
+                android:backgroundTint="@color/black"
+                android:fontFamily="serif"
                 android:text="History" />
 
             <Button
                 android:id="@+id/btnStop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:fontFamily="serif"
                 android:text="Stop" />
 
             <Button
                 android:id="@+id/btnStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:fontFamily="serif"
                 android:text="Start" />
 
             <Button
@@ -52,18 +62,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_weight="1"
+                android:backgroundTint="@color/black"
+                android:fontFamily="serif"
                 android:text="DEL" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@android:color/holo_blue_dark"
                 android:orientation="vertical">
 
                 <TextView
@@ -72,7 +86,9 @@
                     android:layout_height="wrap_content"
 
                     android:layout_margin="20dp"
-                    android:text="Calories" />
+                    android:fontFamily="serif"
+                    android:text="Calories"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/etTime"
@@ -80,7 +96,9 @@
                     android:layout_height="wrap_content"
 
                     android:layout_margin="20dp"
-                    android:text="Time" />
+                    android:fontFamily="serif"
+                    android:text="Time"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/etDis"
@@ -88,7 +106,9 @@
                     android:layout_height="wrap_content"
 
                     android:layout_margin="20dp"
-                    android:text="Distance" />
+                    android:fontFamily="serif"
+                    android:text="Distance"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <RadioGroup
@@ -102,18 +122,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="true"
+                    android:fontFamily="serif"
                     android:text="Walk" />
 
                 <RadioButton
                     android:id="@+id/btnRun"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="serif"
                     android:text="Run" />
 
                 <RadioButton
                     android:id="@+id/btnCycling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="serif"
                     android:text="Cycling" />
             </RadioGroup>
         </LinearLayout>

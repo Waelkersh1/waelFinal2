@@ -33,18 +33,15 @@ public class signup extends AppCompatActivity {
         etFirstName = findViewById(R.id.etFirstName);
         etLastName = findViewById(R.id.etLastName);
         btnsave = findViewById(R.id.btnsave);
-        btnsave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {//class without name
-                checkForm();
+
                 btnsave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         checkForm();
                     }
                 });            }
-        });
-    }
+
+
 
     /**
      * המתודה בודקת תקינות טופם ההרשמה ואם תקין מבצעת הרשמה\The method checks the correctness of the registration top and whether it is correct performs the registration
@@ -150,6 +147,7 @@ public class signup extends AppCompatActivity {
                     Toast.makeText(signup.this,"sign up failed"+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                     etEmail.setError("sining up , failed"+task.getException().getMessage());
                 }
+
 
             }
         };

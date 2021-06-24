@@ -15,6 +15,9 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="67dp"
+            android:background="@android:color/holo_blue_dark"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:fontFamily="serif"
             android:text="            Sign In"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             tools:text="            Sign In" />
@@ -52,6 +55,8 @@
             android:id="@+id/btnlog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:fontFamily="serif"
             android:text="Log In" />
 
         <Space
@@ -62,6 +67,8 @@
             android:id="@+id/btnsignUP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:fontFamily="serif"
             android:text="Sign Up" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
