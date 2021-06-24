@@ -40,7 +40,7 @@ public class history extends AppCompatActivity {
         String uid = auth.getUid();
         DatabaseReference reference = database.getReference();
         //orderByChild("title").equalTo(stTosearch)// 5+6
-        reference.child("tasks").child(uid).addValueEventListener(new ValueEventListener() {
+        reference.child(auth.getCurrentUser().getUid()).child("MyRoutes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {

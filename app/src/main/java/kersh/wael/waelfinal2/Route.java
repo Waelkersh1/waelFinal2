@@ -1,14 +1,9 @@
 package kersh.wael.waelfinal2;
 
 import android.location.Location;
-import android.os.Parcelable;
-
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * this class for route ,
@@ -27,7 +22,7 @@ public class Route {
     /**
      * this is the type of the sport that the athlete wants to practice.
      */
-    private String Type;//RUN WALK BICYCLE
+    private String type;//RUN WALK BICYCLE
     /**
      * this is the distance of the route.
      */
@@ -108,11 +103,11 @@ public class Route {
     }
 
     public String getType() {
-        return Type;
+        return type;
     }
 
     public void setType(String type) {
-        Type = type;
+        this.type = type;
     }
 
     public double getLength() {
@@ -129,7 +124,7 @@ public class Route {
                 "locations=" + locations +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", Type='" + Type + '\'' +
+                ", Type='" + type + '\'' +
                 ", length=" + length +
                 '}';
     }

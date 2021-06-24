@@ -65,7 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
-    private Button btnStart, btnH, btnCap, btnStop, btnDEL;
+    private Button btnStart, btnH,  btnStop, btnDEL;
     private TextView etCal, etTime, etDis;
     private RadioButton btnWalk, btnRun, btnCycling;
     private Route route = null;
@@ -84,7 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         btnStart = findViewById(R.id.btnStart);
         btnH = findViewById(R.id.btnH);
-        btnCap = findViewById(R.id.btnCap);
+
         btnStop = findViewById(R.id.btnStop);
         etCal = findViewById(R.id.etCal);
         etTime = findViewById(R.id.etTime);
