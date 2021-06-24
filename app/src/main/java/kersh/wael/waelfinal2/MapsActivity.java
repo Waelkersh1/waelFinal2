@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -64,10 +65,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
-    private Button btnStart,btnH,btnCap,btnStop,btnDEL;
-    private TextView etCal,etTime,etDis;
-    private RadioButton btnWalk,btnRun,btnCycling;
-    private Route route=null ;
+    private Button btnStart, btnH, btnCap, btnStop, btnDEL;
+    private TextView etCal, etTime, etDis;
+    private RadioButton btnWalk, btnRun, btnCycling;
+    private Route route = null;
     private LocationRequest mLocationRequest;
     private Location mLastLocation;
 
@@ -81,31 +82,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        btnStart=findViewById(R.id.btnStart);
-        btnH=findViewById(R.id.btnH);
-        btnCap=findViewById(R.id.btnCap);
-        btnStop=findViewById(R.id.btnStop);
-        etCal=findViewById(R.id.etCal);
-        etTime=findViewById(R.id.etTime);
-        etDis=findViewById(R.id.etDis);
-        btnWalk=findViewById(R.id.btnWalk);
-        btnRun=findViewById(R.id.btnRun);
-        btnCycling=findViewById(R.id.btnCycling);
-        btnDEL=findViewById(R.id.btnDEL);
+        btnStart = findViewById(R.id.btnStart);
+        btnH = findViewById(R.id.btnH);
+        btnCap = findViewById(R.id.btnCap);
+        btnStop = findViewById(R.id.btnStop);
+        etCal = findViewById(R.id.etCal);
+        etTime = findViewById(R.id.etTime);
+        etDis = findViewById(R.id.etDis);
+        btnWalk = findViewById(R.id.btnWalk);
+        btnRun = findViewById(R.id.btnRun);
+        btnCycling = findViewById(R.id.btnCycling);
+        btnDEL = findViewById(R.id.btnDEL);
 
-                                      /**
-                                       *
-                                       */
+        /**
+         *
+         */
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 btnStart.setEnabled(false);
-                route=new Route();
+                route = new Route();
                 route.setStartDate(new Date());
-               // route.getPics().put(mLastLocation,"test");
-                if (btnWalk.isChecked())route.setType("walk");
-                if (btnRun.isChecked())route.setType("run");
-                if (btnCycling.isChecked())route.setType("cycling");
+                // route.getPics().put(mLastLocation,"test");
+                if (btnWalk.isChecked()) route.setType("walk");
+                if (btnRun.isChecked()) route.setType("run");
+                if (btnCycling.isChecked()) route.setType("cycling");
 
 
             }
@@ -113,17 +114,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         /**
          *
          */
-            btnStop.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    btnStart.setEnabled(true);
-                    route.setEndDate(new Date());
-                    saveRoute(route);
-                }
-            });
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnStart.setEnabled(true);
+                route.setEndDate(new Date());
+                saveRoute(route);
+            }
+        });
+        btnH.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              Intent i= new Intent(MapsActivity.this,history.class);
+              startActivity(i);
 
 
-              /**
+            }
+        });
+
+
+
+
+
+        /**
          *
          */
 
@@ -137,7 +150,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},MY_PERMISSIONS_REQUEST_LOCATION);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
             return;
         }
         /**
@@ -147,8 +160,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                if(location!=null) {
-                    mLastLocation=location;
+                if (location != null) {
+                    mLastLocation = location;
 //                    if(route!=null)
 //                    route.getPics().put(mLastLocation,"test");
                     LatLng latLng = new LatLng(location.getAltitude(), location.getLongitude());
@@ -172,21 +185,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         FirebaseAuth auth = FirebaseAuth.getInstance();
         route.setOwner(auth.getCurrentUser().getUid());
         // to get the database root reference
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         //to get uid(universal id)
-        String key=reference.child(auth.getCurrentUser().getUid()).child("MyRoutes").push().getKey();
+        String key = reference.child(auth.getCurrentUser().getUid()).child("MyRoutes").push().getKey();
         route.setKey(key);
 
         reference.child(auth.getCurrentUser().getUid()).child("MyRoutes").child(key).setValue(route).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Add Successful", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getApplicationContext(), "Add Faild", Toast.LENGTH_LONG).show();
 
                 }
@@ -207,7 +217,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
 //    @Override
 //    public void onMapReady(GoogleMap googleMap) {
-//        mMap = googleMap;
+//    mMap = googleMap;
 //
 //        // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(32.9842928 ,35.1031843);
@@ -242,7 +252,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000*6); //1000MS=1S
         mLocationRequest.setFastestInterval(1000*6);
@@ -417,7 +437,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             == PackageManager.PERMISSION_GRANTED) {
 
                         fusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-                        mMap.setMyLocationEnabled(true);
+
                     }
 
                 } else {

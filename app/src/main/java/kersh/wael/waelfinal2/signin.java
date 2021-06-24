@@ -30,6 +30,7 @@ public class signin extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if(auth.getCurrentUser()!=null){
             startActivity(new Intent(getApplicationContext(),MapsActivity.class));
+            finish();
         }
         //4
         /**
