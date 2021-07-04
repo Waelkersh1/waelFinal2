@@ -1,3 +1,4 @@
+
 package kersh.wael.waelfinal2;
 
 import android.location.Location;
@@ -13,12 +14,12 @@ public class Route {
     /**
      * this array contain the locations of athlete
      */
-    private ArrayList<Location> locations=new ArrayList<>();
+    private ArrayList<Location> locations = new ArrayList<>();
     /**
      * start date : the beginning hour .
      * end date : the hour when he ends the workout .
      */
-    private Date startDate , endDate ;
+    private Date startDate, endDate;
     /**
      * this is the type of the sport that the athlete wants to practice.
      */
@@ -26,20 +27,19 @@ public class Route {
     /**
      * this is the distance of the route.
      */
-    private double  length;
+    private double length;
     /**
      * this is the id for the owner
-     *
      */
     private String key;
     /**
      * the owner is someone who has a profile
      */
-    private String Owner ;
+    private String Owner;
     //TreeMap<Integer,String> pics=new TreeMap<>() ;
 
 
-    private int Calories ;
+    private int Calories;
 
     public int getCalories() {
         return Calories;
@@ -70,62 +70,63 @@ public class Route {
 //        this.pics = pics;
 //    }
 
-    public String getKey() {
+    public  String getKey() {
+
         return key;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
+        public void setKey (String key){
+            this.key = key;
+        }
 
-    public ArrayList<Location> getLocations() {
-        return locations;
-    }
+        public ArrayList<Location> getLocations () {
+            return locations;
+        }
 
-    public void setLocations(ArrayList<Location> locations) {
-        this.locations = locations;
-    }
+        public void setLocations (ArrayList < Location > locations) {
+            this.locations = locations;
+        }
 
-    public Date getStartDate() {
-        return startDate;
-    }
+        public Date getStartDate () {
+            return startDate;
+        }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
+        public void setStartDate (Date startDate){
+            this.startDate = startDate;
+        }
 
-    public Date getEndDate() {
-        return endDate;
-    }
+        public Date getEndDate () {
+            return endDate;
+        }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+        public void setEndDate (Date endDate){
+            this.endDate = endDate;
+        }
 
-    public String getType() {
-        return type;
-    }
+        public String getType () {
+            return type;
+        }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+        public void setType (String type){
+            this.type = type;
+        }
 
-    public double getLength() {
-        return length;
-    }
+        public double getLength () {
+            return length;
+        }
 
-    public void setLength(double length) {
-        this.length = length;
-    }
+        public void setLength ( double length){
+            this.length = length;
+        }
 
-    @Override
-    public String toString() {
-        return "Route{" +
-                "locations=" + locations +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", Type='" + type + '\'' +
-                ", length=" + length +
-                '}';
+        @Override
+        public String toString () {
+            return "Route{" +
+                    "locations=" + locations +
+                    ", startDate=" + startDate +
+                    ", endDate=" + endDate +
+                    ", Type='" + type + '\'' +
+                    ", length=" + length +
+                    '}';
+        }
     }
-}
